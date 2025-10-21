@@ -36,46 +36,96 @@
 | 시뮬레이션 툴    | VCS 또는 ModelSim (환경에 따라 변경)  | RTL 동작 검증 및 알고리즘 정합성 확인                  |
 | 버전 관리      | GitHub                       | 코드 및 구조 버전 관리, 이력 추적                     |
 
+---
 
-## 🏗 전체 시스템 구조 (Architecture & Flow)
+## 전체 시스템 구조 (Architecture & Flow)
 - FFT 파이프라인: Module0 → CBFP0 → Module1 → CBFP1 → Module2 → Bit Reversal
 - Radix-2 DIF or SDF 구조 설명
-<img width="844" height="652" alt="image" src="https://github.com/user-attachments/assets/41cf4eb9-1f60-447e-a540-34eca4eb5201" />
+<img width="844" height="652" alt="image" src="https://github.com/user-attachments/assets/41cf4eb9-1f60-447e-a540-34eca4eb5201" />  
 
 
-## 🧮 구현 알고리즘 및 고정소수점 전략 (Fixed-Point Design & CBFP Scaling)
-- 고정소수점 포맷한 방식
-- Block Floating Point 구조 설명
-- Scaling 포인트 삽입 근거
+### Stage 0 – Module0 + CBFP(Stage0)
 
-## 🔍 ASIC 합성 결과 (Synthesis Results)
-| 항목 | 결과 |
+**Stage 0은 FFT의 초기 연산을 수행하는 Module0과, 해당 연산 결과의 비트 스케일을 정규화하는 CBFP Stage0로 구성됩니다.**
+이 단계는 전체 FFT 변환의 시작점으로서, 입력 데이터를 Radix-2 기반 Butterfly 구조로 처리하여 주파수 도메인의 첫 변환을 수행합니다. 이후 CBFP Stage0에서 연산 결과의 오버플로 가능성을 방지하고 다음 Stage에서 처리 가능한 비트 범위로 조정합니다.  
+
+#### 역할 요약
+| 블록 | 기능 | 비고 |
+|------|------|------|
+| Module0 | Radix-2 Butterfly 기반 FFT 초기 변환 | Fixed-Point 데이터 기반 |
+| CBFP Stage0 | MSB 기반 Shift 정규화 → Scaling 적용 | Overflow 방지 및 SQNR 유지 |
+
+#### Module0 구조 다이어그램
+<img width="947" height="678" alt="Module0 구조" src="https://github.com/user-attachments/assets/d5d2ca50-c554-46cf-9b2e-195da918b215" />
+
+#### CBFP Stage0 구조 다이어그램
+<img width="870" height="1173" alt="CBFP Stage0 구조" src="https://github.com/user-attachments/assets/0f54037c-4418-4a7b-93e1-64e317d198dc" />
+
+
+### Stage 1 ~ Stage 2 요약 (중간/최종 변환 및 주파수 정렬)
+
+Stage1부터는 Stage0에서 정규화된 데이터를 기반으로 FFT 연산이 단계적으로 확장됩니다.  
+각 Stage는 동일한 Radix-2 Butterfly 구조를 기반으로 동작하며, 주파수 분해도가 점진적으로 증가합니다.
+
+
+#### 단계별 수행 요약
+
+| Stage | 구성 블록 | 역할 | 비고 |
+|-------|-----------|------|------|
+| Stage1 | Module1 + CBFP1 | FFT 중간 대역 확장 및 비트 정규화 | Stage0 구조 확장 |
+| Stage2 | Module2 | 최종 주파수 도메인 변환 | CBFP 미적용 |
+
+#### Bit Reversal
+
+---
+
+### 전체 FFT 출력 시뮬레이션 결과 (RTL vs Fixed-Point 모델 비교)
+
+모든 FFT Stage(Module0 → CBFP0 → Module1 → CBFP1 → Module2 → Bit Reversal)를 통합한 상태에서,
+최종 출력 데이터를 MATLAB Fixed-Point Reference 모델과 비교하여 알고리즘 정확성을 검증하였습니다.
+
+
+#### 시뮬레이션 기준
+| 항목 | 설정 |
 |------|------|
-| LUT/Cell 사용량 | 요약 |
-| Timing Slack | 예: +0.21ns |
-| 이슈 해결 과정 | latch 제거, pipeline 정리 등
+| 입력 길이 | 512-point |
+| 입력 타입 | Fixed-Point (Real/Imag 또는 Real-only) |
+| 비교 기준 | MATLAB Fixed-Point FFT 모델 |
+| 정합성 검증 방식 | RTL 결과 vs MATLAB 결과 1:1 매칭 |
 
-(+ 일부 rpt 요약 테이블 + 상세 보고는 /synth_summary 참고)
 
-## 🧪 검증 방식 (Verification Flow)
-✅ RTL 시뮬 → ✅ Gate-Level Sim → ✅ MATLAB과 비교  
-✔ 합성 후 결과가 MATLAB fixed-point 모델과 동일 여부 비교  
+#### 출력 결과 비교
+**Cosine 입력 기반 RTL 시뮬레이션 결과**
+- MATLAB 참조 결과와 동일한 FFT 출력값을 확인
+<img width="2681" height="248" alt="image" src="https://github.com/user-attachments/assets/87eaf7a3-ae28-483a-b9bf-8b755e56ab5b" />
 
-(+ waveform/테스트 방식 간단 요약)
+| Index | 497 | 498 | 499 | 500 | 501 | 502 | 503 | 504 | 505 | 506 | 507 | 508 | 509 | 510 | 511 | 512 |
+|-------|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
+| Real  | -1  | 3   | -1  | 3   | -1  | -1  | 5   | -1  | -1  | -1  | -1  | -1  | -1  | 2   | -1  | 4091 |
+| Imag  | 0   | -1  | 0   | 0   | 0   | 0   | 1   | -2  | 0   | 2   | 0   | 0   | 3   | 87  | 61  | -113 |
 
-## 🛠 문제 해결 사례 (Troubleshooting)
-- latch 유도 문제 → register로 해결  
-- 스케일 불일치 → CBFP 포맷 보정  
-- 모듈 지연 불균형 → 파이프라인 정렬
+<br>
 
-## 📉 성능/효율 정리 (Performance Insight)
-- 면적 절감율, latency, cycle 계산
+**Random 입력 기반 RTL 시뮬레이션 결과**
+- 임의의 입력 데이터에 대해서도 MATLAB 모델과 동일한 FFT 결과를 확인
+<img width="2681" height="257" alt="image" src="https://github.com/user-attachments/assets/b68e57b1-394b-4355-826f-ccf5f45ee78f" />
 
-## 📚 배운 점 (What I Learned)
+| Index | 497 | 498 | 499 | 500 | 501 | 502 | 503 | 504 | 505 | 506 | 507 | 508 | 509 | 510 | 511 | 512 |
+|-------|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
+| Real  | 56  | 95  | 119 | -23 | 27  | -20 | 6   | 24  | 19  | -100| -33 | 16  | -21 | 3   | 87  | 36  |
+| Imag  | -29 | 78  | -116| -29 | 103 | 37  | -82 | -85 | 72  | 46  | -11 | 82  | 65  | 43  | 61  | -113 |
 
-## 📁 폴더 구성 (Repository Structure)
-✅ 사용자가 올려놓은 폴더 구조 자동 설명
+<br>
 
-## 📅 개발 기간
-(예: 2025.07.20 ~ 2025.08.05)
+**Gate-Level Simulation 기반 결과**
+- 합성된 넷리스트 기반으로 RTL과 동일한 결과를 확인  
+- ASIC Flow 전체 검증을 통해 Logic-Level, Timing-Level 모두 정합성 확보
+<img width="2619" height="288" alt="image" src="https://github.com/user-attachments/assets/fa086703-dfec-4483-8920-a56eca964365" />
+<img width="2619" height="275" alt="image" src="https://github.com/user-attachments/assets/fa3650b6-8f0f-4326-9559-7e721dba3962" />
+
+| 구분 | Imaginary (do_im) | Real (do_re) | Imag 10진수 | Real 10진수 |
+|------|------------------|--------------|-------------|-------------|
+| 출력 1 | 0_0000_0000_0000 | 0_1111_1111_1011 | 0 | 4091 |
+| 출력 2 | 0_0000_0000_0000 | 1_1111_1111_1111 | 0 | -1 |
+| 출력 3 | 0_0000_0000_0000 | 0_0000_0000_0010 | 0 | 2 |
 
