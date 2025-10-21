@@ -56,10 +56,10 @@
 | CBFP Stage0 | MSB 기반 Shift 정규화 → Scaling 적용 | Overflow 방지 및 SQNR 유지 |
 
 #### Module0 구조 다이어그램
-<img width="947" height="678" alt="Module0 구조" src="https://github.com/user-attachments/assets/d5d2ca50-c554-46cf-9b2e-195da918b215" />
+<img width="847" height="678" alt="Module0 구조" src="https://github.com/user-attachments/assets/d5d2ca50-c554-46cf-9b2e-195da918b215" />
 
 #### CBFP Stage0 구조 다이어그램
-<img width="870" height="1173" alt="CBFP Stage0 구조" src="https://github.com/user-attachments/assets/0f54037c-4418-4a7b-93e1-64e317d198dc" />
+<img width="770" height="1173" alt="CBFP Stage0 구조" src="https://github.com/user-attachments/assets/0f54037c-4418-4a7b-93e1-64e317d198dc" />
 
 
 ### Stage 1 ~ Stage 2 요약 (중간/최종 변환 및 주파수 정렬)
