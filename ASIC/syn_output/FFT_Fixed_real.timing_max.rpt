@@ -1,0 +1,105 @@
+Information: Updating design information... (UID-85)
+Warning: Design 'FFT_Fixed' contains 32 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : FFT_Fixed
+Version: V-2023.12-SP5-4
+Date   : Sun Aug  3 22:51:03 2025
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: TT_0P80V_0P00V_0P00V_0P00V_25C   Library: GF22FDX_SC7P5T_116CPP_BASE_CSC20L_TT_0P80V_0P00V_0P00V_0P00V_25C
+Wire Load Model Mode: enclosed
+
+  Startpoint: BFY_M1/genblk2_2__TWF_M1/twf_m1_im_reg_0_
+              (rising edge-triggered flip-flop clocked by cnt_clk)
+  Endpoint: BFY_M1/shift_din20_q_cbfp_reg_2__24_
+            (rising edge-triggered flip-flop clocked by cnt_clk)
+  Path Group: cnt_clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cnt_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  BFY_M1/genblk2_2__TWF_M1/twf_m1_im_reg_0_/CLK (SC7P5T_SDFFRQX4_S_CSC20L)
+                                                          0.00       0.00 r
+  BFY_M1/genblk2_2__TWF_M1/twf_m1_im_reg_0_/Q (SC7P5T_SDFFRQX4_S_CSC20L)
+                                                         53.87      53.87 f
+  BFY_M1/genblk2_2__TWF_M1/U12/Z (SC7P5T_INVX8_CSC20L)
+                                                         12.62      66.50 r
+  BFY_M1/genblk2_2__TWF_M1/U11/Z (SC7P5T_INVX16_CSC20L)
+                                                         17.38      83.88 f
+  BFY_M1/genblk2_2__TWF_M1/twf_m1_im[7] (twf_m1_13)       0.00      83.88 f
+  BFY_M1/U41375/Z (SC7P5T_CKXOR2X6_CSC20L)               52.89     136.77 r
+  BFY_M1/U283442/Z (SC7P5T_BUFX1_A_CSC20L)               30.08     166.85 r
+  BFY_M1/U283443/Z (SC7P5T_BUFX1_A_CSC20L)               43.07     209.92 r
+  BFY_M1/U234574/Z (SC7P5T_ND2X1_MR_CSC20L)              26.21     236.12 f
+  BFY_M1/DP_OP_16251J2_508_1221_U536/Z (SC7P5T_MUXI2X1_CSC20L)
+                                                         33.92     270.05 f
+  BFY_M1/U268203/Z (SC7P5T_INVX1_CSC20L)                 17.99     288.04 r
+  BFY_M1/U268205/CON (SC7P5T_FCGENIX1_CSC20L)            27.61     315.65 f
+  BFY_M1/intadd_10723_U3/S (SC7P5T_FAX2_A_CSC20L)        64.70     380.35 r
+  BFY_M1/U135002/Z (SC7P5T_OAI21X1_CSC20L)               17.89     398.24 f
+  BFY_M1/U135006/Z (SC7P5T_NR2X1_MR_CSC20L)              17.68     415.92 r
+  BFY_M1/U135008/Z (SC7P5T_OAI21X1_CSC20L)               20.14     436.06 f
+  BFY_M1/U135010/Z (SC7P5T_NR2X1_MR_CSC20L)              17.85     453.91 r
+  BFY_M1/U135015/Z (SC7P5T_OAI21X1_CSC20L)               18.99     472.90 f
+  BFY_M1/U135018/Z (SC7P5T_NR2X1_MR_CSC20L)              17.65     490.55 r
+  BFY_M1/U135019/Z (SC7P5T_NR2X1_MR_CSC20L)              10.44     500.98 f
+  BFY_M1/U135023/Z (SC7P5T_NR2X1_MR_CSC20L)              14.69     515.67 r
+  BFY_M1/U135026/Z (SC7P5T_INVX1_CSC20L)                  9.58     525.26 f
+  BFY_M1/U135028/Z (SC7P5T_ND2X1_MR_CSC20L)              10.24     535.50 r
+  BFY_M1/U135029/Z (SC7P5T_AOI21IAX1_CSC20L)             25.13     560.63 r
+  BFY_M1/U135030/CON (SC7P5T_FCGENIX1_CSC20L)            19.50     580.12 f
+  BFY_M1/U135031/Z (SC7P5T_INVX1_CSC20L)                 12.01     592.13 r
+  BFY_M1/U135032/Z (SC7P5T_ND2X1_MR_CSC20L)              14.07     606.21 f
+  BFY_M1/U135036/Z (SC7P5T_AOI21X1_MR_CSC20L)            28.00     634.21 r
+  BFY_M1/intadd_2642_U3/CO (SC7P5T_FAX1_A_CSC20L)        51.18     685.38 r
+  BFY_M1/intadd_2642_U2/CO (SC7P5T_FAX1_A_CSC20L)        43.58     728.96 r
+  BFY_M1/U91036/Z (SC7P5T_ND2X1_MR_CSC20L)               16.59     745.56 f
+  BFY_M1/U134982/Z (SC7P5T_AO21IAX1_CSC20L)              25.39     770.95 f
+  BFY_M1/U134983/CON (SC7P5T_FCGENIX1_CSC20L)            19.31     790.26 r
+  BFY_M1/U134984/Z (SC7P5T_INVX1_CSC20L)                 10.32     800.57 f
+  BFY_M1/U51828/Z (SC7P5T_NR2X1_MR_CSC20L)               14.94     815.52 r
+  BFY_M1/U51827/Z (SC7P5T_OA21IAX2_CSC20L)               26.73     842.25 r
+  BFY_M1/intadd_2034_U3/CO (SC7P5T_FAX1_A_CSC20L)        45.81     888.07 r
+  BFY_M1/intadd_2034_U2/CO (SC7P5T_FAX1_A_CSC20L)        43.58     931.65 r
+  BFY_M1/U134977/Z (SC7P5T_ND2X1_MR_CSC20L)              20.17     951.82 f
+  BFY_M1/U51952/Z (SC7P5T_AOI21X2_CSC20L)                22.00     973.82 r
+  BFY_M1/intadd_2626_U2/CO (SC7P5T_FAX1_A_CSC20L)        45.52    1019.33 r
+  BFY_M1/U134974/CON (SC7P5T_FCGENIX1_CSC20L)            15.43    1034.77 f
+  BFY_M1/U134975/Z (SC7P5T_INVX1_CSC20L)                 16.25    1051.02 r
+  BFY_M1/intadd_4274_U2/CO (SC7P5T_FAX1_A_CSC20L)        45.40    1096.41 r
+  BFY_M1/U134972/CON (SC7P5T_FCGENIX1_CSC20L)            15.44    1111.85 f
+  BFY_M1/U134973/Z (SC7P5T_INVX1_CSC20L)                 16.14    1127.99 r
+  BFY_M1/intadd_2610_U3/CO (SC7P5T_FAX1_A_CSC20L)        46.98    1174.97 r
+  BFY_M1/intadd_2610_U2/CO (SC7P5T_FAX1_A_CSC20L)        42.62    1217.59 r
+  BFY_M1/U1848/Z (SC7P5T_CKXOR2X1_CSC20L)                39.20    1256.79 f
+  BFY_M1/U23667/Z (SC7P5T_OAI22X1_CSC20L)                15.26    1272.05 r
+  BFY_M1/U153076/Z (SC7P5T_NR3X1_MR_CSC20L)              11.55    1283.60 f
+  BFY_M1/U41523/Z (SC7P5T_ND3X1_CSC20L)                  11.79    1295.38 r
+  BFY_M1/shift_din20_q_cbfp_reg_2__24_/D (SC7P5T_SDFFRQX4_CSC20L)
+                                                          0.00    1295.38 r
+  data arrival time                                               1295.38
+
+  clock cnt_clk (rise edge)                            1400.00    1400.00
+  clock network delay (ideal)                             0.00    1400.00
+  clock uncertainty                                     -50.00    1350.00
+  BFY_M1/shift_din20_q_cbfp_reg_2__24_/CLK (SC7P5T_SDFFRQX4_CSC20L)
+                                                          0.00    1350.00 r
+  library setup time                                    -54.40    1295.60
+  data required time                                              1295.60
+  --------------------------------------------------------------------------
+  data required time                                              1295.60
+  data arrival time                                              -1295.38
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.21
+
+
+1
