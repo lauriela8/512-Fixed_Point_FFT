@@ -1,0 +1,13 @@
+lappend search_path  ../verilog
+set net_list "\
+../fft_project/FFT_Fixed.sv
+../fft_project/Bfy_Module_0.sv
+../fft_project/Bfy_Module_1.sv
+../fft_project/Bfy_Module_2.sv
+../fft_project/twf_m0.sv
+../fft_project/twf_m1.sv
+../fft_project/fft_cbfp_0.sv
+../fft_project/fft_cbfp_1.sv
+../fft_project/reversal.sv
+"
+ analyze -format sverilog -library WORK $net_list
