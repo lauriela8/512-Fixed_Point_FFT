@@ -1,0 +1,2 @@
+vcs -full64 -kdb -sverilog -debug_access+all -f fft_project_file_list
+./simv -verdi &
